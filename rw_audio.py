@@ -5,6 +5,11 @@
 # Subject: Median filter applied to deal audio signal
 # Project link: https://github.com/HaohanZhutcd/Computational_Method.git
 # =============================================================================
+"""
+This file includes 3 funtions:
+Read, write audio
+Compare the result of corrupted and clean audio
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,13 +29,26 @@ from numpy.fft import fft
 
 
 def read_audio(filename):
+    '''
+    Read the audio file and display the spectrum
 
+    Args:
+        filename (str): auodio name
+
+    Returns:
+        data: an array included the audio signal
+        Fs: sampling frequency of audio
+    '''
     Fs, data = read(filename)
+
+    # extract channel 0
     data = data[:, 0]
     print("Sampling Frequency is:", Fs)
 
     samplingFrequency = Fs
 
+    # Execute FFT(fast fourier transform)
+    # Frequency domain representation
     # Normalize amplitude
     fourierTransform = fft(data)/len(data)
     # Single sided spectrum
@@ -43,6 +61,7 @@ def read_audio(filename):
     # Frequency domain representation
     print('Please press the "Q" on the keyboard to close the spectrum')
 
+    # Create subplot
     figure, axis = plt.subplots(2, 1)
     plt.subplots_adjust(hspace=1)
 
@@ -75,20 +94,32 @@ def read_audio(filename):
 
 
 def write_audio(output_filename, Fs_Output, data_Output):
+    '''
+    Write the audio file
+
+    Args:
+        output_filename: name of output audio
+        Fs_Output: sampling frequency of output audio
+        data_Output: output audio data
+    '''
     write(output_filename, Fs_Output, data_Output)
 
 
 def comparison_origin_and_clean(filename, output_filename):
-    Fs_origin, data_origin = read(filename)
-    data_origin = data_origin[:, 0]
-    Fs_clean, data_clean = read(output_filename)
-    data_clean = data_clean[:, 0]
+    '''
+    Compare the waveform of clean and corrupted
+    '''
+    Fs_ori, data_ori = read('./Audio_File/source_squabb.wav')
 
-    figure, axis = plt.subplots(2, 1)
+    Fs_degraded, data_degraded = read(filename)
+    data_degraded = data_degraded[:, 0]
+    Fs_clean, data_clean = read(output_filename)
+
+    figure, axis = plt.subplots(3, 1)
     plt.subplots_adjust(hspace=1)
 
     axis[0].set_title('Waveform of the degraded audio')
-    axis[0].plot(data_origin)
+    axis[0].plot(data_degraded)
     axis[0].set_xlabel('Sample Index')
     axis[0].set_ylabel('Amplitude')
 
@@ -96,6 +127,11 @@ def comparison_origin_and_clean(filename, output_filename):
     axis[1].plot(data_clean)
     axis[1].set_xlabel('Sample Index')
     axis[1].set_ylabel('Amplitude')
+
+    axis[2].set_title('Waveform of original signal')
+    axis[2].plot(data_ori)
+    axis[2].set_xlabel('Sample Index')
+    axis[2].set_ylabel('Amplitude')
     plt.show()
 
 
