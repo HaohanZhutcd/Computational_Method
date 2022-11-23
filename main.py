@@ -9,15 +9,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from medianFilter import medianFilter
-from rw_audio import read_audio, write_audio
+from detectionfile import detect_corrupted
+from medianFilter_detection import medianFilter
+from rw_audio import read_audio
+# from rw_audio import write_audio
+
 from rw_audio import comparison_origin_and_clean
 
 filename = './Audio_File/degraded.wav'
 data, Fs = read_audio(filename)
-
-filter_len = 5
-filtered_data = medianFilter(data, filter_len)
+b_k = detect_corrupted(data, 0.8)
+outputfile = './Audio_File/clean.wav'
+filtered_data = medianFilter(filename, b_k, 5, outputfile)
+# filter_len = 5
+# filtered_data = medianFilter(data, filter_len)
 
 figure, axis = plt.subplots(2, 1)
 
@@ -33,8 +38,9 @@ axis[1].plot(filtered_data)
 axis[1].set_xlabel('Sample Index')
 axis[1].set_ylabel('Amplitude')
 plt.show()
-
+if ord == 'q':
+    plt.close()
 filtered_data = np.array(filtered_data)
 newfilename = './Audio_File/clean.wav'
-write_audio(newfilename, Fs, filtered_data)
+# write_audio(newfilename, Fs, filtered_data)
 comparison_origin_and_clean(filename, newfilename)

@@ -133,6 +133,8 @@ def comparison_origin_and_clean(filename, output_filename):
     axis[2].set_xlabel('Sample Index')
     axis[2].set_ylabel('Amplitude')
     plt.show()
+    if ord == 'q':
+        plt.close()
 
 
 if __name__ == '__main__':
