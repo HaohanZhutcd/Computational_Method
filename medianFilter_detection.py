@@ -99,9 +99,9 @@ def medianFilter(degraded_name, detection_b_k, filter_len, outputfile):
                 filtered_Signal.append(signal_input[i])
             else:
                 filtered_Signal.append(filter_window[pad_part])
-            print("Progress: ",
-                  '%.3f' % (np.double(index_i / len(signal_input)) * 100),
-                  "%")
+            # print("Progress: ",
+                #   '%.3f' % (np.double(index_i / len(signal_input)) * 100),
+                #   "%")
         # outputfile = './Audio_File/clean.wav'
         print("Done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         write_audio(outputfile, Fs, np.array(filtered_Signal))

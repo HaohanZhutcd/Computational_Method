@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from scipy.io.wavfile import read
 from scipy.io.wavfile import write
 from numpy.fft import fft
+from MeanSquareError import MSE_Clean_and_Restored
 # import matplotlib
 # from IPython.display import Audio
 # from numpy.fft import ifft
@@ -43,7 +44,7 @@ def read_audio(filename):
 
     # extract channel 0
     data = data[:, 0]
-    print("Sampling Frequency is:", Fs)
+    # print("Sampling Frequency is:", Fs)
 
     samplingFrequency = Fs
 
@@ -105,16 +106,18 @@ def write_audio(output_filename, Fs_Output, data_Output):
     write(output_filename, Fs_Output, data_Output)
 
 
-def comparison_origin_and_clean(filename, output_filename):
+def comparison_degraded_restored_and_clean(filename, restored_filename):
     '''
     Compare the waveform of clean and corrupted
     '''
-    Fs_ori, data_ori = read('./Audio_File/source_squabb.wav')
-
+    Fs_ori, data_clean = read('./Audio_File/source_squabb.wav')
+    data_clean = data_clean[:, 0]
     Fs_degraded, data_degraded = read(filename)
     data_degraded = data_degraded[:, 0]
-    Fs_clean, data_clean = read(output_filename)
+    Fs_clean, data_restored = read(restored_filename)
 
+    mseOutputandClean = MSE_Clean_and_Restored(data_restored, data_clean)
+    print("MSE between clean and restored: ", mseOutputandClean)
     figure, axis = plt.subplots(3, 1)
     plt.subplots_adjust(hspace=1)
 
@@ -124,12 +127,12 @@ def comparison_origin_and_clean(filename, output_filename):
     axis[0].set_ylabel('Amplitude')
 
     axis[1].set_title('Waveform of clean signal')
-    axis[1].plot(data_clean)
+    axis[1].plot(data_restored)
     axis[1].set_xlabel('Sample Index')
     axis[1].set_ylabel('Amplitude')
 
     axis[2].set_title('Waveform of original signal')
-    axis[2].plot(data_ori)
+    axis[2].plot(data_clean)
     axis[2].set_xlabel('Sample Index')
     axis[2].set_ylabel('Amplitude')
     plt.show()

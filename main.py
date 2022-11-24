@@ -13,14 +13,14 @@ from detectionfile import detect_corrupted
 from medianFilter_detection import medianFilter
 from rw_audio import read_audio
 # from rw_audio import write_audio
+from rw_audio import comparison_degraded_restored_and_clean
+# from MeanSquareError import MSE_Clean_and_Restored
 
-from rw_audio import comparison_origin_and_clean
-
-filename = './Audio_File/degraded.wav'
-data, Fs = read_audio(filename)
+corrupted_filename = './Audio_File/degraded.wav'
+data, Fs = read_audio(corrupted_filename)
 b_k = detect_corrupted(data, 0.8)
-outputfile = './Audio_File/clean.wav'
-filtered_data = medianFilter(filename, b_k, 5, outputfile)
+restoredfilename = './Audio_File/clean.wav'
+filtered_data = medianFilter(corrupted_filename, b_k, 5, restoredfilename)
 # filter_len = 5
 # filtered_data = medianFilter(data, filter_len)
 
@@ -33,7 +33,7 @@ axis[0].plot(data)
 axis[0].set_xlabel('Sample Index')
 axis[0].set_ylabel('Amplitude')
 
-axis[1].set_title('Waveform of clean signal')
+axis[1].set_title('Waveform of restoredq signal')
 axis[1].plot(filtered_data)
 axis[1].set_xlabel('Sample Index')
 axis[1].set_ylabel('Amplitude')
@@ -41,6 +41,9 @@ plt.show()
 if ord == 'q':
     plt.close()
 filtered_data = np.array(filtered_data)
-newfilename = './Audio_File/clean.wav'
+
+source_wav = './Audio_File/source_squabb.wav'
+clean_data, _ = read_audio(source_wav)
 # write_audio(newfilename, Fs, filtered_data)
-comparison_origin_and_clean(filename, newfilename)
+comparison_degraded_restored_and_clean(corrupted_filename, restoredfilename)
+# MSE_Clean_and_Restored(filtered_data, clean_data)
