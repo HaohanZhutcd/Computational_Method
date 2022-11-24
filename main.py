@@ -15,7 +15,8 @@ from rw_audio import read_audio
 # from rw_audio import write_audio
 from rw_audio import comparison_degraded_restored_and_clean
 # from MeanSquareError import MSE_Clean_and_Restored
-
+from scipy.interpolate import CubicSpline
+'''
 corrupted_filename = './Audio_File/degraded.wav'
 data, Fs = read_audio(corrupted_filename)
 b_k = detect_corrupted(data, 0.8)
@@ -47,3 +48,17 @@ clean_data, _ = read_audio(source_wav)
 # write_audio(newfilename, Fs, filtered_data)
 comparison_degraded_restored_and_clean(corrupted_filename, restoredfilename)
 # MSE_Clean_and_Restored(filtered_data, clean_data)
+'''
+corrupted_filename = './Audio_File/degraded.wav'
+data, Fs = read_audio(corrupted_filename)
+Fs_interval = 1 / Fs
+end_time = len(data) * Fs_interval
+x = np.arange(0, end_time, Fs_interval)
+y = data
+cs = CubicSpline(x, y)
+xs = np.arange(-0.5, 9.6, 0.1)
+fig, ax = plt.subplots(figsize=(6.5, 4))
+ax.plot(x, y, 'x', label='data')
+ax.set_xlim(-0.5, 9.5)
+ax.legend(loc='lower left', ncol=2)
+plt.show()
