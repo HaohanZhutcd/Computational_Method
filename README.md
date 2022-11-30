@@ -7,6 +7,9 @@ This assignment builds on Assignment I. We assume that we have successfully dete
 
 I have created a median filter which produces the same output as the median filter in the numpy library. In addition, I have compared the execution time and output of median filters and cubic splines.
 
+[Here](https://github.com/HaohanZhutcd/Computational_Method.git
+) is a link to my github.
+
 ---
 
 ## Installation and Execution
@@ -69,13 +72,15 @@ For Cubic Splines Interpolation:
 
 1. For the median filter, different lengths were explored to test the effectiveness of the fix. In particular, filters with lengths ranging from 3 to 23 were tested and it was found that the MSE was lowest when the length was 3, as shown in Figure below.
 
-<img src="MSE.png" width="500">
+<img src="MSE1.png" width="500">
+
+figure 1: Relation between filter length and mse (optimal filter length = 3)
 
 The restored waveform <clean.wav> with the optimal filter length is given below:
 
-<img src="Medianfilter.png" width="500">
-
 <img src="medianwithsource.png" width="500">
+
+figure 2: Comparision between Clean, Degraded and Restored audio
 
 2. Using the cubic splines, we observe that clicks were largely eliminated.
 
@@ -83,9 +88,13 @@ The restored waveform <CPI.wav> with the optimal filter length is given below:
 
 <img src="CPI.png" width="500">
 
+figure 3: Output of Cubic Splines Interpolation
+
 3. Comparing the two different interpolation methods, we notice that Cubic Spline Filter has a lower MSE than the Median filter with filter_size = 3. The runtime of median_filter and cubic spline interpolation showed as follow.
 
 <img src="Comparisons .png" width="500">
+
+figure 4: Execute time and mse between Splines and Median
 
 After listening to the two restored files, we note that both audios eliminate clicks and sound similar.
 
@@ -95,12 +104,15 @@ After listening to the two restored files, we note that both audios eliminate cl
 
 This code was developed for purely academic purposes by Haohan Zhu (HaohanZhutcd) as part of Assignment 2 which named "Audio Restoration in Python" of the module (EEP55C22 - Computational Method) in the Trinity College Dublin  
 
-Resources:
+---
+## Resources
 - Course materials from Dr.Angeliki Katsenou
 - Python Spline Interpolation How-To (Online Resource):
   https://betterprogramming.pub/python-spline-interpolation-how-to-ef059c214d28
 - SciPy documentation (Scipy.interpolate.CubicSpline):
   https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html
+
+- my github: https://github.com/HaohanZhutcd/Computational_Method.git
 
 
 

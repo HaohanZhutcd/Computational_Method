@@ -49,9 +49,12 @@ def read_audio(filename):
     data = data / 32767
     # samplingFrequency = Fs
 
+    # ===============================================
+    # Generally We dont need to use fft spectrum
     # Execute FFT(fast fourier transform)
     # Frequency domain representation
     # Normalize amplitude
+    # ===============================================
     # fourierTransform = fft(data)/len(data)
     # Single sided spectrum
     # fourierTransform = 2*fourierTransform[range(int(len(data)/2))]
@@ -59,9 +62,6 @@ def read_audio(filename):
     # values = np.arange(int(tpCount/2))
     # timePeriod = tpCount/samplingFrequency
     # frequencies = values/timePeriod
-
-    # Frequency domain representation
-    # print('Please press the "Q" on the keyboard to close the spectrum')
 
     # Create subplot
     # figure, axis = plt.subplots(2, 1)
@@ -78,6 +78,11 @@ def read_audio(filename):
     # axis[1].set_ylabel('Amp')
     # plt.show()
 
+    # ===================================================
+    # Frequency domain representation
+    # This part is to display fft spectrum and waveform
+    # Generally we don't use these codes
+    # ===================================================
     # plt.figure(1)
     # plt.plot(frequencies, abs(fourierTransform))
     # plt.xlabel('Frequency')
@@ -127,24 +132,32 @@ def comparison_degraded_restored_and_clean(filename, restored_filename):
 
     mse = MSE(data_restored, data_clean)
     print("MSE between clean and restored: ", mse)
-    figure, axis = plt.subplots(3, 1)
-    plt.subplots_adjust(hspace=1)
 
-    axis[0].set_title('Waveform of the degraded audio')
-    axis[0].plot(data_degraded)
-    axis[0].set_xlabel('Sample Index')
-    axis[0].set_ylabel('Amplitude')
+    # ======================================================
+    # If you want to see the result of clean, degraded,
+    # restored waveform, Please uncomment this part below.
+    # But if you want to find the optimal filter length in
+    # "Median_Execution.py", please comment it to short the
+    # running time
+    # ======================================================
+    # figure, axis = plt.subplots(3, 1)
+    # plt.subplots_adjust(hspace=1)
 
-    axis[1].set_title('Waveform of restored signal')
-    axis[1].plot(data_restored)
-    axis[1].set_xlabel('Sample Index')
-    axis[1].set_ylabel('Amplitude')
+    # axis[0].set_title('Waveform of the degraded audio')
+    # axis[0].plot(data_degraded)
+    # axis[0].set_xlabel('Sample Index')
+    # axis[0].set_ylabel('Amplitude')
 
-    axis[2].set_title('Waveform of clean signal')
-    axis[2].plot(data_clean)
-    axis[2].set_xlabel('Sample Index')
-    axis[2].set_ylabel('Amplitude')
-    plt.show()
+    # axis[1].set_title('Waveform of restored signal')
+    # axis[1].plot(data_restored)
+    # axis[1].set_xlabel('Sample Index')
+    # axis[1].set_ylabel('Amplitude')
+
+    # axis[2].set_title('Waveform of clean signal')
+    # axis[2].plot(data_clean)
+    # axis[2].set_xlabel('Sample Index')
+    # axis[2].set_ylabel('Amplitude')
+    # plt.show()
     if ord == 'q':
         plt.close()
     return mse

@@ -6,6 +6,10 @@
 # Project link: https://github.com/HaohanZhutcd/Computational_Method.git
 # =============================================================================
 
+"""
+main.py is to run the basic program of splines and median
+Unittest is in the TestMedian.py
+"""
 
 from rw_audio import read_audio
 from MeanSquareError import MSE

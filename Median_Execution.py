@@ -36,20 +36,20 @@ def median_execution(corrupted_filename, filter_length):
                                  filter_length,
                                  restoredfilename)
 
-    figure, axis = plt.subplots(2, 1)
+    # figure, axis = plt.subplots(2, 1)
 
-    plt.subplots_adjust(hspace=1)
+    # plt.subplots_adjust(hspace=1)
 
-    axis[0].set_title('Waveform of the degraded audio')
-    axis[0].plot(data)
-    axis[0].set_xlabel('Sample Index')
-    axis[0].set_ylabel('Amplitude')
+    # axis[0].set_title('Waveform of the degraded audio')
+    # axis[0].plot(data)
+    # axis[0].set_xlabel('Sample Index')
+    # axis[0].set_ylabel('Amplitude')
 
-    axis[1].set_title('Waveform of restored signal')
-    axis[1].plot(filtered_data)
-    axis[1].set_xlabel('Sample Index')
-    axis[1].set_ylabel('Amplitude')
-    plt.show()
+    # axis[1].set_title('Waveform of restored signal')
+    # axis[1].plot(filtered_data)
+    # axis[1].set_xlabel('Sample Index')
+    # axis[1].set_ylabel('Amplitude')
+    # plt.show()
     if ord == 'q':
         plt.close()
 
@@ -67,24 +67,29 @@ def median_execution(corrupted_filename, filter_length):
 
 
 if __name__ == "__main__":
-    corrupted_filename = './Audio_File/degraded.wav'
-    filter_length = 3
-    median_execution(corrupted_filename, filter_length)
-    # filter_length = 3
-    # mse_list = []
-    # filter_list = []
     # corrupted_filename = './Audio_File/degraded.wav'
-    # for i in range(20):
-    #     filter_list.append(filter_length)
-    #     _, _, _, mse = median_execution(corrupted_filename, filter_length)
-    #     filter_length += 2
-    #     mse_list.append(mse)
-    # # filter_length
-    # mse_list = np.array(mse_list)
-    # print(mse_list)
-    # print(filter_list)
-    # plt.plot(filter_list, mse_list)
-    # # giving a title to my graph
-    # plt.title('mse')
-    # # function to show the plot
-    # plt.show()
+    # filter_length = 3
+    # median_execution(corrupted_filename, filter_length)
+
+    # For calculate the optimal filter length, using code followed
+    # if just want to display median, please comment this part
+    filter_length = 3
+    mse_list = []
+    filter_list = []
+    corrupted_filename = './Audio_File/degraded.wav'
+    for i in range(20):
+        filter_list.append(filter_length)
+        _, _, _, mse = median_execution(corrupted_filename, filter_length)
+        filter_length += 2
+        mse_list.append(mse)
+    # filter_length
+    mse_list = np.array(mse_list)
+    print(mse_list)
+    print(filter_list)
+    plt.plot(filter_list, mse_list)
+    # giving a title to my graph
+    plt.title('mse')
+    plt.xlabel("filter length")
+    plt.ylabel("mse")
+    # function to show the plot
+    plt.show()
