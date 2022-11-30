@@ -8,7 +8,7 @@ This assignment builds on Assignment I. We assume that we have successfully dete
 I have created a median filter which produces the same output as the median filter in the numpy library. In addition, I have compared the execution time and output of median filters and cubic splines.
 
 [Here](https://github.com/HaohanZhutcd/Computational_Method.git
-) is a link to my github.
+) is a link to my github. PS: Choose 'master' branch.
 
 ---
 
