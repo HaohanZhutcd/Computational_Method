@@ -8,6 +8,8 @@
 
 """
 Median Filter using numpy library
+This is to test the result if is same as the median function in numpy
+library or not
 """
 
 import numpy as np
@@ -121,12 +123,12 @@ def compare_designed_and_given(my_design, numpy_result):
         False:  If the result is different
     '''
     if my_design == numpy_result:
-        print("The result of median filter designed by me is equal to \
-            the result of median funtion from numpy library")
+        print("The result of median filter designed by me is equal to",
+              "the result of median funtion from numpy library")
         return True
     else:
-        print("The result of median filter designed by me is not equal to \
-        the result of median funtion from numpy library")
+        print("The result of median filter designed by me is not equal to",
+              "the result of median funtion from numpy library")
         return False
 
 
@@ -135,5 +137,7 @@ if __name__ == '__main__':
     # print("The length of input data:", len(signal))
     filter_len = 3
     numpy_result = medianFilter_numpuFunction_verification(signal, filter_len)
-    my_design = medianFilter(signal, filter_len)
+    print(numpy_result)
+    my_design, _ = medianFilter(signal, filter_len)
+    print(my_design)
     compare_designed_and_given(my_design, numpy_result)

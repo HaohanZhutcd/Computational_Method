@@ -5,6 +5,7 @@
 # Subject: Median filter applied to deal audio signal
 # Project link: https://github.com/HaohanZhutcd/Computational_Method.git
 # =============================================================================
+
 """
 This file includes 3 funtions:
 Read, write audio
@@ -15,8 +16,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io.wavfile import read
 from scipy.io.wavfile import write
-from numpy.fft import fft
-from MeanSquareError import MSE_Clean_and_Restored
+# from numpy.fft import fft
+from MeanSquareError import MSE
 # import matplotlib
 # from IPython.display import Audio
 # from numpy.fft import ifft
@@ -45,37 +46,38 @@ def read_audio(filename):
     # extract channel 0
     data = data[:, 0]
     # print("Sampling Frequency is:", Fs)
-
-    samplingFrequency = Fs
+    data = data / 32767
+    # samplingFrequency = Fs
 
     # Execute FFT(fast fourier transform)
     # Frequency domain representation
     # Normalize amplitude
-    fourierTransform = fft(data)/len(data)
+    # fourierTransform = fft(data)/len(data)
     # Single sided spectrum
-    fourierTransform = 2*fourierTransform[range(int(len(data)/2))]
-    tpCount = len(data)
-    values = np.arange(int(tpCount/2))
-    timePeriod = tpCount/samplingFrequency
-    frequencies = values/timePeriod
+    # fourierTransform = 2*fourierTransform[range(int(len(data)/2))]
+    # tpCount = len(data)
+    # values = np.arange(int(tpCount/2))
+    # timePeriod = tpCount/samplingFrequency
+    # frequencies = values/timePeriod
 
     # Frequency domain representation
-    print('Please press the "Q" on the keyboard to close the spectrum')
+    # print('Please press the "Q" on the keyboard to close the spectrum')
 
     # Create subplot
-    figure, axis = plt.subplots(2, 1)
-    plt.subplots_adjust(hspace=1)
+    # figure, axis = plt.subplots(2, 1)
+    # plt.subplots_adjust(hspace=1)
 
-    axis[0].set_title('Waveform of the audio')
-    axis[0].plot(data)
-    axis[0].set_xlabel('Sample Index')
-    axis[0].set_ylabel('Amplitude')
+    # axis[0].set_title('Waveform of the audio')
+    # axis[0].plot(data)
+    # axis[0].set_xlabel('Sample Index')
+    # axis[0].set_ylabel('Amplitude')
 
-    axis[1].set_title('Magnitude spectrum of corrupt signal')
-    axis[1].plot(frequencies, abs(fourierTransform))
-    axis[1].set_xlabel('Frequency')
-    axis[1].set_ylabel('Amp')
-    plt.show()
+    # axis[1].set_title('Magnitude spectrum of corrupt signal')
+    # axis[1].plot(frequencies, abs(fourierTransform))
+    # axis[1].set_xlabel('Frequency')
+    # axis[1].set_ylabel('Amp')
+    # plt.show()
+
     # plt.figure(1)
     # plt.plot(frequencies, abs(fourierTransform))
     # plt.xlabel('Frequency')
@@ -103,7 +105,9 @@ def write_audio(output_filename, Fs_Output, data_Output):
         Fs_Output: sampling frequency of output audio
         data_Output: output audio data
     '''
-    write(output_filename, Fs_Output, data_Output)
+
+    data_Output = data_Output
+    write(output_filename, Fs_Output, data_Output.astype(np.float32))
 
 
 def comparison_degraded_restored_and_clean(filename, restored_filename):
@@ -112,12 +116,17 @@ def comparison_degraded_restored_and_clean(filename, restored_filename):
     '''
     Fs_ori, data_clean = read('./Audio_File/source_squabb.wav')
     data_clean = data_clean[:, 0]
+    data_clean = data_clean / 32767
+
     Fs_degraded, data_degraded = read(filename)
     data_degraded = data_degraded[:, 0]
-    Fs_clean, data_restored = read(restored_filename)
+    data_degraded = data_degraded / 32767
 
-    mseOutputandClean = MSE_Clean_and_Restored(data_restored, data_clean)
-    print("MSE between clean and restored: ", mseOutputandClean)
+    Fs_clean, data_restored = read(restored_filename)
+    data_restored = data_restored
+
+    mse = MSE(data_restored, data_clean)
+    print("MSE between clean and restored: ", mse)
     figure, axis = plt.subplots(3, 1)
     plt.subplots_adjust(hspace=1)
 
@@ -126,18 +135,19 @@ def comparison_degraded_restored_and_clean(filename, restored_filename):
     axis[0].set_xlabel('Sample Index')
     axis[0].set_ylabel('Amplitude')
 
-    axis[1].set_title('Waveform of clean signal')
+    axis[1].set_title('Waveform of restored signal')
     axis[1].plot(data_restored)
     axis[1].set_xlabel('Sample Index')
     axis[1].set_ylabel('Amplitude')
 
-    axis[2].set_title('Waveform of original signal')
+    axis[2].set_title('Waveform of clean signal')
     axis[2].plot(data_clean)
     axis[2].set_xlabel('Sample Index')
     axis[2].set_ylabel('Amplitude')
     plt.show()
     if ord == 'q':
         plt.close()
+    return mse
 
 
 if __name__ == '__main__':

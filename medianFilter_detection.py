@@ -8,9 +8,13 @@
 """
 Median Filter not using numpy library
 """
+
+import time
 import numpy as np
+from tqdm import tqdm
 from rw_audio import read_audio
 from rw_audio import write_audio
+# from detectionfile import detect_corrupted
 
 
 def medianFilter(degraded_name, detection_b_k, filter_len, outputfile):
@@ -30,6 +34,7 @@ def medianFilter(degraded_name, detection_b_k, filter_len, outputfile):
                          been applied
     '''
 
+    start_time = time.time()
     # Detect the median filter window length if odd or not
     if filter_len % 2 == 1:
         # Window length is a odd number and extract the half part of window
@@ -41,7 +46,7 @@ def medianFilter(degraded_name, detection_b_k, filter_len, outputfile):
         filtered_Signal = []
         signal_input, Fs = read_audio(degraded_name)
 
-        for i in range(len(signal_input)):
+        for i in tqdm(range(len(signal_input))):
             filter_window = []
             # In fact, the range of the for loop in python is started from 0
             # To follow my logic I want the array start from 1
@@ -99,12 +104,18 @@ def medianFilter(degraded_name, detection_b_k, filter_len, outputfile):
                 filtered_Signal.append(signal_input[i])
             else:
                 filtered_Signal.append(filter_window[pad_part])
-            # print("Progress: ",
-                #   '%.3f' % (np.double(index_i / len(signal_input)) * 100),
-                #   "%")
+
+            # prog_Perc = (np.double(index_i / len(signal_input)) * 100)
+            # print("Progress: ", '%.2f' % prog_Perc, "%")
+            # time.sleep(0.01)
         # outputfile = './Audio_File/clean.wav'
-        print("Done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         write_audio(outputfile, Fs, np.array(filtered_Signal))
+
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print('MedianInterpolation Execution time:', execution_time, 's')
+
+        print("Done")
         return filtered_Signal
     elif filter_len % 2 == 0:
         # if the window length is even

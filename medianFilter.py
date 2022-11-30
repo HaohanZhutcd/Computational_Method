@@ -7,6 +7,8 @@
 # =============================================================================
 """
 Median Filter not using numpy library
+This is initial version of median filter,
+full version please see medianfilter_detection
 """
 
 # import numpy as np
@@ -107,7 +109,7 @@ def medianFilter(signal_input, filter_len):
             filtered_Signal.append(filter_window[pad_part])
         # print("filtered_Signal:", filtered_Signal)
         # print(len(filtered_Signal))
-        return filtered_Signal
+        return filtered_Signal, filter_window
     elif filter_len % 2 == 0:
         # if the window length is even
         print("Please replace the filter length in a odd number")
@@ -120,5 +122,6 @@ if __name__ == '__main__':
     signal = [1, 2, 3, 6, 10, 7, 2, 1]
     # print("The length of input data:", len(signal))
     filter_len = 3
-    result = medianFilter(signal, filter_len)
+    result, filter_window = medianFilter(signal, filter_len)
     print(result)
+    print(filter_window)
