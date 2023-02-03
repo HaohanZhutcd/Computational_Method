@@ -1,0 +1,145 @@
+#! C:/Program Files/Nuke13.1v2/nuke-13.1.2.dll -nx
+version 13.1 v2
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="1182" h="1008" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="809" stretch="1"/>
+            <splitter orientation="2">
+                <split size="567"/>
+                <dock id="" activePageId="Viewer.3">
+                    <page id="Viewer.3"/>
+                    <page id="Viewer.2"/>
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="399"/>
+                <dock id="" activePageId="DAG.1">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="325"/>
+            <dock id="" activePageId="Properties.1" focus="true">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name C:/Users/zhuha/Downloads/.nk
+ frame 18
+ last_frame 68
+ lock_range true
+ format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ workingSpaceLUT linear
+ monitorLut sRGB
+ monitorOutLUT rec709
+ int8Lut sRGB
+ int16Lut sRGB
+ logLut Cineon
+ floatLut linear
+}
+Read {
+ inputs 0
+ file_type mov
+ file C:/Users/zhuha/Downloads/Hula_cin.mov
+ format "2048 1080 0 0 2048 1080 1 2K_DCP"
+ last 68
+ origlast 68
+ origset true
+ name Read2
+ xpos 247
+ ypos -126
+}
+Colorspace {
+ colorspace_out YCbCr
+ name Colorspace1
+ xpos 247
+ ypos -11
+}
+PostageStamp {
+ name PostageStamp1
+ xpos 247
+ ypos 49
+ postage_stamp true
+}
+Constant {
+ inputs 0
+ color {0.74429 0.41973 0.21804 0}
+ color_panelDropped true
+ format "2048 1080 0 0 2048 1080 1 2K_DCP"
+ name Constant1
+ xpos 376
+ ypos 49
+}
+Merge2 {
+ inputs 2
+ operation minus
+ name Merge1
+ xpos 261
+ ypos 237
+}
+Expression {
+ expr0 r*r
+ expr1 g*g
+ expr2 b*b
+ name Expression1
+ xpos 425
+ ypos 261
+}
+set N8fcec00 [stack 0]
+Expression {
+ expr0 r/(2*0.03)
+ expr1 g/(2*0.0003)
+ expr2 b/(2*0.003)
+ name Expression2
+ xpos 439
+ ypos 321
+}
+set N8fce800 [stack 0]
+Expression {
+ expr0 r+g+b
+ name Expression3
+ xpos 424
+ ypos 388
+}
+push $N8fce800
+push $N8fcec00
+Viewer {
+ inputs 3
+ frame 18
+ frame_range 1-68
+ input_number 2
+ channels rgb
+ colour_sample_bbox {0.2498593628 -0.2113906071 0.7381406128 0.339390628}
+ input_process false
+ translate {1.601999998 -0.2660000026}
+ gauge 0.883143425
+ name Viewer3
+ xpos 222
+ ypos 388
+}
+Expression {
+ inputs 0
+ temp_name0 rc
+ temp_expr0 0.2126
+ temp_name1 gc
+ temp_expr1 0.7152
+ temp_name2 bc
+ temp_expr2 0.0722
+ name Expression4
+ selected true
+ xpos 79
+ ypos 305
+}
